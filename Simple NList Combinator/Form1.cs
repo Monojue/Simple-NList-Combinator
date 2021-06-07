@@ -14,12 +14,16 @@ namespace Simple_NList_Combinator {
         public Form1() {
             InitializeComponent();
         }
-
+        // change your list in nlist
         string[] nlist = { "a" , "b", "c", "d", "e", "d", "e"};
+        // change your length of word in n
         int n = 8;
-        double currentProgress = 0;
+        // change folder directory here
         static string folder = @"C:\Export";
+        // change file name here
         static string file = folder + @"\1.txt";
+
+        double currentProgress = 0;
 
         private void btnGenerate_Click(object sender, EventArgs e) {
             lblTotal.Text = Math.Pow(nlist.Count(), n).ToString();
@@ -53,29 +57,26 @@ namespace Simple_NList_Combinator {
                     }
                    
                     //file.WriteLineAsync(tempLine);
-                    WriteCharacters(tempLine);
+                    WriteLine(tempLine);
 
-                        //check digit form the latest
-                        for (int cpointer = n - 1; cpointer >= 0; cpointer--) {
+                    //check digit form the latest
+                    for (int cpointer = n - 1; cpointer >= 0; cpointer--) {
 
-                            //if same to no. of nlist count
-                            if (digit[cpointer] == nlist.Count() - 1) {
-                                // reset digit at cpointer to 0
-                                digit[cpointer] = 0;
-                            } else {
-                                //increase 1 to [latest room] -1
-                                digit[cpointer]++;
-                                break;
-                            }
+                        //if same to no. of nlist count
+                        if (digit[cpointer] == nlist.Count() - 1) {
+                            // reset digit at cpointer to 0
+                            digit[cpointer] = 0;
+                        } else {
+                            //increase 1 to [latest room] -1
+                            digit[cpointer]++;
+                            break;
                         }
+                    }
                 }
             }
-            //file.Close();
         }
         
-        
-        
-        static async void WriteCharacters(string word) {
+        static async void WriteLine(string word) {
             using (StreamWriter writer = File.Exists(file) ? File.AppendText(file) : File.CreateText(file)) {
                 await writer.WriteLineAsync(word);
             }
