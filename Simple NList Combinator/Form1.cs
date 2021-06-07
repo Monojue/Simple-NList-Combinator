@@ -18,9 +18,13 @@ namespace Simple_NList_Combinator {
         string[] nlist = { "a" , "b", "c", "d", "e", "d", "e"};
         int n = 8;
         double currentProgress = 0;
+        static string folder = @"C:\Export";
+        static string file = folder + @"\1.txt";
 
         private void btnGenerate_Click(object sender, EventArgs e) {
             lblTotal.Text = Math.Pow(nlist.Count(), n).ToString();
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
             backgroundWorker.RunWorkerAsync(2000);
         }
 
@@ -69,7 +73,7 @@ namespace Simple_NList_Combinator {
             //file.Close();
         }
         
-        static string file = @"C:\Export\1.txt";
+        
         
         static async void WriteCharacters(string word) {
             using (StreamWriter writer = File.Exists(file) ? File.AppendText(file) : File.CreateText(file)) {
