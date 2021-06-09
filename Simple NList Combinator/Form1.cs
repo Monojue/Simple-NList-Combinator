@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -15,9 +16,10 @@ namespace Simple_NList_Combinator {
             InitializeComponent();
         }
         // change your list in nlist
-        string[] nlist = { "a" , "b", "c", "d", "e", "d", "e"};
+        char[] list;
+        char[] nlist;
         // change your length of word in n
-        int n = 8;
+        int n = 2;
         // change folder directory here
         static string folder = @"C:\Export";
         // change file name here
@@ -26,7 +28,14 @@ namespace Simple_NList_Combinator {
         double currentProgress = 0;
 
         private void btnGenerate_Click(object sender, EventArgs e) {
+            //add input text to char array
+            list = tbList.Text.ToArray();
+            //Remove duplicate
+            nlist = list.Distinct().ToArray();
+            n = int.Parse(tbDigit.Text);
+            //Display no. of possible combination
             lblTotal.Text = Math.Pow(nlist.Count(), n).ToString();
+            //Create folder
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
             backgroundWorker.RunWorkerAsync(2000);
@@ -34,8 +43,7 @@ namespace Simple_NList_Combinator {
 
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e) {
-            //create file
-            //StreamWriter file = new StreamWriter(@"C:\設計書\lines.txt");
+            
             //create list with given digit n
             List<int> digit = new List<int>(n);
             for (int i = 0; i < n; i++) {
@@ -77,6 +85,7 @@ namespace Simple_NList_Combinator {
         }
         
         static async void WriteLine(string word) {
+            //write file
             using (StreamWriter writer = File.Exists(file) ? File.AppendText(file) : File.CreateText(file)) {
                 await writer.WriteLineAsync(word);
             }
@@ -98,6 +107,10 @@ namespace Simple_NList_Combinator {
             
             if (backgroundWorker.IsBusy)
                 backgroundWorker.CancelAsync();
+        }
+
+        private void btnOpen_Click(object sender, EventArgs e) {
+            Process.Start(folder);
         }
     }
 }
